@@ -24,25 +24,25 @@ export default class Juego extends Phaser.Scene {
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
     const capaFondo = map.addTilesetImage("sky", "tilesFondo");
-    const capaPlataformas = map.addTilesetImage("platform", "tilesPlataforma");
+    const capaPlataform = map.addTilesetImage("platform_atlas", "tilesPlataforma");
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    const fondoLayer = map.createLayer("fondo", capaFondo, 0, 0);
+    const fondoLayer = map.createLayer("background", capaFondo, 0, 0);
     const plataformaLayer = map.createLayer(
-      "plataformas",
-      capaPlataformas,
+      "platform",
+      capaPlataform,
       0,
       0
     );
-    const objectosLayer = map.getObjectLayer("objetos");
+    const objectosLayer = map.getObjectLayer("objects");
 
-    plataformaLayer.setCollisionByProperty({ colision: true });
+    plataformaLayer.setCollisionByProperty({ collision: true });
 
     console.log("spawn point player", objectosLayer);
 
     // crear el jugador
     // Find in the Object Layer, the name "dude" and get position
-    let spawnPoint = map.findObject("objetos", (obj) => obj.name === "jugador");
+    let spawnPoint = map.findObject("objects", (obj) => obj.name === "player");
     console.log(spawnPoint);
     // The player and its settings
     this.jugador = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "dude");
@@ -51,11 +51,14 @@ export default class Juego extends Phaser.Scene {
     this.jugador.setBounce(0.1);
     this.jugador.setCollideWorldBounds(true);
 
-    spawnPoint = map.findObject("objetos", (obj) => obj.name === "salida");
+    spawnPoint = map.findObject("objects", (obj) => obj.name === "salida");
     console.log("spawn point salida ", spawnPoint);
-    this.salida = this.physics.add
-      .sprite(spawnPoint.x, spawnPoint.y, "salida")
+    if (spawnPoint){
+      this.salida = this.physics.add
+      .sprite(spawnPoint.x, spawnPoint.y, "salida") 
       .setScale(0.2);
+    }
+    
 
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -70,7 +73,7 @@ export default class Juego extends Phaser.Scene {
 
       const { x = 0, y = 0, name } = objData;
       switch (name) {
-        case "estrella": {
+        case "star": {
           // add star to scene
           // console.log("estrella agregada: ", x, y);
           const star = this.estrellas.create(x, y, "star");
@@ -104,6 +107,22 @@ export default class Juego extends Phaser.Scene {
       "Estrellas recolectadas: 0",
       { fontSize: "15px", fill: "#FFFFFF" }
     );
+
+    this.timer = 20;
+    this.timeText = this.add.text(750 , 20, this.timer, {
+      fontSize: "35px",
+      fontStyle: "bold",
+      fill: "#FFFFFF",
+    }); 
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.onSecond,
+      callbackScope: this,
+      loop: true
+    })
+    
+
+    
   }
 
   update() {
@@ -155,4 +174,13 @@ export default class Juego extends Phaser.Scene {
       z: "este es otro atributo enviado a otro escena",
     });
   }
+
+  onSecond (){
+    this.timer--;
+    this.timeText.setText(this.timer);
+    if ( this.timer <=0){
+      this.gameOver = true;
+    }
+  }
 }
+
