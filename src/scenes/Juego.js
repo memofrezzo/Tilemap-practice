@@ -65,7 +65,10 @@ export default class Juego extends Phaser.Scene {
 
     // Create empty group of starts
     this.estrellas = this.physics.add.group();
-
+    this.bombs = this.physics.add.group({
+      immovable:true,
+      allowGravity:false
+    });
     // find object layer
     // if type is "stars", add to stars group
     objectosLayer.objects.forEach((objData) => {
@@ -79,10 +82,31 @@ export default class Juego extends Phaser.Scene {
           const star = this.estrellas.create(x, y, "star");
           break;
         }
+        case "bomb": {
+          const bomb= this.bombs.create(x,y, "bomb").setBounce(1,1);
+          break;
+        }
       }
-    });
+     
 
-    this.physics.add.collider(this.jugador, plataformaLayer);
+    
+    
+    
+    });
+     
+
+    this.salida.visible = false;
+     this.physics.add.collider(this.bombs, plataformaLayer)
+     this.physics.add.collider(
+      this.bombs,
+      this.jugador,
+      this.bombakill,
+      null,
+      this
+
+      );
+
+     this.physics.add.collider(this.jugador, plataformaLayer);
     this.physics.add.collider(this.estrellas, plataformaLayer);
     this.physics.add.collider(
       this.jugador,
@@ -120,9 +144,22 @@ export default class Juego extends Phaser.Scene {
       callbackScope: this,
       loop: true
     })
+    //velocidad bomb
+    this.bombs.setVelocity(200,200);
+
+    this.cameras.main.startFollow(this.jugador)
+    this.cameras.main.setBounds(0,0, map.widthInPixels, map.heigthInPixels);
+
+    this.cantidadEstrellasTexto.setScrollFactor(0);
+    this.timeText.setScrollFactor(0);
     
 
-    
+
+
+
+
+
+
   }
 
   update() {
@@ -155,25 +192,34 @@ export default class Juego extends Phaser.Scene {
 
     // todo / para hacer: sumar puntaje
     //this.cantidadEstrellas = this.cantidadEstrellas + 1;
+    if(this.estrellas.getTotalUsed()=== 0){
+      this.salida.visible=true;
+    };
+
     this.cantidadEstrellas++;
 
     this.cantidadEstrellasTexto.setText(
       "Estrellas recolectadas: " + this.cantidadEstrellas
     );
   }
-
+  bombakill(jugador, bombs){
+    this.scene.restart();
+  }
+  
   esVencedor(jugador, salida) {
     // if (this.cantidadEstrellas >= 5)
     // sacamos la condicion porque esta puesta como 4to parametro en el overlap
 
     console.log("estrellas recolectadas", this.cantidadEstrellas);
 
-    this.scene.start("fin", {
+    this.scene.start("nivel2", {
       cantidadEstrellas: this.cantidadEstrellas,
       y: "este es un dato de muestra",
       z: "este es otro atributo enviado a otro escena",
     });
+    
   }
+  
 
   onSecond (){
     this.timer--;
