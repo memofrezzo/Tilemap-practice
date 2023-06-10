@@ -20,7 +20,6 @@ export default class Juego extends Phaser.Scene {
   create() {
     // todo / para hacer: texto de puntaje
     const map = this.make.tilemap({ key: "map" });
-
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
     const capaFondo = map.addTilesetImage("sky", "tilesFondo");
@@ -84,6 +83,7 @@ export default class Juego extends Phaser.Scene {
         }
         case "bomb": {
           const bomb= this.bombs.create(x,y, "bomb").setBounce(1,1);
+          bomb.setScale(0.025);
           break;
         }
       }
@@ -132,7 +132,7 @@ export default class Juego extends Phaser.Scene {
       { fontSize: "15px", fill: "#FFFFFF" }
     );
 
-    this.timer = 20;
+    this.timer = 25;
     this.timeText = this.add.text(750 , 20, this.timer, {
       fontSize: "35px",
       fontStyle: "bold",
@@ -147,9 +147,10 @@ export default class Juego extends Phaser.Scene {
     //velocidad bomb
     this.bombs.setVelocity(200,200);
 
-    this.cameras.main.startFollow(this.jugador)
-    this.cameras.main.setBounds(0,0, map.widthInPixels, map.heigthInPixels);
+    this.cameras.main.startFollow(this.jugador);
 
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heigthInPixels);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heigthInPixels);
     this.cantidadEstrellasTexto.setScrollFactor(0);
     this.timeText.setScrollFactor(0);
     
@@ -183,7 +184,7 @@ export default class Juego extends Phaser.Scene {
 
     //jump
     if (this.cursors.up.isDown && this.jugador.body.blocked.down) {
-      this.jugador.setVelocityY(-330);
+      this.jugador.setVelocityY(-500);
     }
   }
 
@@ -225,7 +226,7 @@ export default class Juego extends Phaser.Scene {
     this.timer--;
     this.timeText.setText(this.timer);
     if ( this.timer <=0){
-      this.gameOver = true;
+      this.scene.start("gameOver", { cantidadEstrellas: this.cantidadEstrellas });
     }
   }
 }

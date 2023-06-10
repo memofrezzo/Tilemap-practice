@@ -1,13 +1,13 @@
-export default class nivel2 extends Phaser.Scene {
+export default class nivel3 extends Phaser.Scene {
     constructor() {
       // key of the scene
       // the key will be used to start the scene by other scenes
-      super("nivel2");
+      super("nivel3");
     }
   
     init() {
       // this is called before the scene is created
-      // init variables
+      // init variablesmap
       // take data passed from other scenes
       // data object param {}
   
@@ -17,7 +17,7 @@ export default class nivel2 extends Phaser.Scene {
   
     create() {
       // todo / para hacer: texto de puntaje
-      const map = this.make.tilemap({ key: "map2" });
+      const map = this.make.tilemap({ key: "map3" });
   
       // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
       // Phaser's cache (i.e. the name you used in preload)
@@ -37,7 +37,10 @@ export default class nivel2 extends Phaser.Scene {
       plataformaLayer.setCollisionByProperty({ collision: true });
   
       console.log("spawn point player", objectosLayer);
-  
+      function create() {
+        bombx.setVelocityX(100); 
+        bomby.setVelocityY(100); 
+    }
       // crear el jugador
       // Find in the Object Layer, the name "dude" and get position
       let spawnPoint = map.findObject("objects", (obj) => obj.name === "player");
@@ -62,6 +65,8 @@ export default class nivel2 extends Phaser.Scene {
       this.cursors = this.input.keyboard.createCursorKeys();
   
       // Create empty group of starts
+        let bombx;
+        let bomby;
       this.estrellas = this.physics.add.group();
       this.bombs = this.physics.add.group({
         immovable:true,
@@ -83,16 +88,6 @@ export default class nivel2 extends Phaser.Scene {
           case "bomb": {
             const bomb= this.bombs.create(x,y, "bomb").setBounce(1,1);
             bomb.setScale(0.025);
-            break;
-          }
-          case "bombx": {
-            const bombx= this.bombs.create(x,y, "bombx").setBounce(1,0);
-            bombx.setScale(0.025);
-            break;
-          }
-          case "bomby": {
-            const bomby= this.bombs.create(x,y, "bomby").setBounce(0,1);
-            bomby.setScale(0.025);
             break;
           }
         }
@@ -154,7 +149,7 @@ export default class nivel2 extends Phaser.Scene {
         loop: true
       })
       //velocidad bomb
-      this.bombs.setVelocity(150,150);
+      this.bombs.setVelocity(200,200);
   
       this.cameras.main.startFollow(this.jugador)
       this.physics.world.setBounds(0,0, map.widthInPixels, map.heigthInPixels);
@@ -182,42 +177,18 @@ export default class nivel2 extends Phaser.Scene {
         this.jugador.setVelocityX(0);
         this.jugador.anims.play("turn");
       }
-    
+      function update(bombx, bomby) {
+        if (bombx.x < 0 || bombx.x > game.config.width) {
+            bombx.setVelocityX(-bombx.body.velocity.x);
+        }
+        if (bomby.y < 0 || bomby.y > game.config.height) {
+            bomby.setVelocityY(-bomby.body.velocity.y);
+        }
+    }
       //jump
       if (this.cursors.up.isDown && this.jugador.body.blocked.down) {
         this.jugador.setVelocityY(-500);
       }
-    
-      // Check bomb position and update
-      this.bombs.getChildren().forEach((bomb) => {
-        if (bomb.texture.key === 'bomb') {
-          // Lógica de movimiento para las bombas normales
-          if (bomb.x < 0 || bomb.x > this.game.config.width) {
-            bomb.setVelocityX(-bomb.body.velocity.x);
-          }
-          if (bomb.y < 0 || bomb.y > this.game.config.height) {
-            bomb.setVelocityY(-bomb.body.velocity.y);
-          }
-          } else if (bomb.texture.key === 'bombx') {
-            // Lógica de movimiento para las bombx (solo eje X)
-            if (bomb.x < 0 || bomb.x > this.game.config.width) {
-              bomb.setVelocityX(-bomb.body.velocity.x);
-            }
-          } else if (bomb.texture.key === 'bomby') {
-            // Lógica de movimiento para las bomby (solo eje Y)
-            if (bomb.y < 0 || bomb.y > this.game.config.height) {
-              bomb.setVelocityY(-bomb.body.velocity.y);
-            }
-          } else {
-            // Lógica de movimiento para cualquier otro tipo de bomba (rebotar en todas las direcciones)
-            if (bomb.x < 0 || bomb.x > this.game.config.width) {
-              bomb.setVelocityX(-bomb.body.velocity.x);
-            }
-            if (bomb.y < 0 || bomb.y > this.game.config.height) {
-              bomb.setVelocityY(-bomb.body.velocity.y);
-            }
-        }
-      });
     }
   
     recolectarEstrella(jugador, estrella) {
@@ -264,3 +235,6 @@ export default class nivel2 extends Phaser.Scene {
       }
     }
   }
+
+
+
