@@ -29,7 +29,6 @@ export default class Precarga extends Phaser.Scene {
   create() {
     //  Our player animations, turning, walking left and walking right.
     // se crea una sola vez, para que no de error en el restart de la escena
-    
     this.anims.create({
       key: "left",
       frames: this.anims.generateFrameNumbers("dude", { start: 0, end: 3 }),
@@ -51,6 +50,6 @@ export default class Precarga extends Phaser.Scene {
     });
 
     // init scene juego
-    this.scene.start("juego");
+    this.scene.start("nivel3");
   }
 }

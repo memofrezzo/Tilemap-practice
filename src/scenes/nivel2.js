@@ -157,8 +157,8 @@ export default class nivel2 extends Phaser.Scene {
       this.bombs.setVelocity(150,150);
   
       this.cameras.main.startFollow(this.jugador)
-      this.physics.world.setBounds(0,0, map.widthInPixels, map.heigthInPixels);
-      this.cameras.main.setBounds(0,0, map.widthInPixels, map.heigthInPixels);
+      this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
+      this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
   
       this.cantidadEstrellasTexto.setScrollFactor(0);
       this.timeText.setScrollFactor(0);
@@ -190,33 +190,25 @@ export default class nivel2 extends Phaser.Scene {
     
       // Check bomb position and update
       this.bombs.getChildren().forEach((bomb) => {
-        if (bomb.texture.key === 'bomb') {
+       if (bomb.texture.key === 'bomb') {
           // Lógica de movimiento para las bombas normales
-          if (bomb.x < 0 || bomb.x > this.game.config.width) {
-            bomb.setVelocityX(-bomb.body.velocity.x);
-          }
-          if (bomb.y < 0 || bomb.y > this.game.config.height) {
-            bomb.setVelocityY(-bomb.body.velocity.y);
-          }
-          } else if (bomb.texture.key === 'bombx') {
+          //  if (bomb.x < 0 || bomb.x > this.game.config.width) {
+        //      bomb.setVelocityX(-bomb.body.velocity.x);
+      //      }
+            if (bomb.y < 0 || bomb.y > this.game.config.height) {
+              bomb.setVelocityY(-bomb.body.velocity.y);
+            }
+        } else if (bomb.texture.key === 'bombx') {
             // Lógica de movimiento para las bombx (solo eje X)
             if (bomb.x < 0 || bomb.x > this.game.config.width) {
               bomb.setVelocityX(-bomb.body.velocity.x);
-            }
+           }
           } else if (bomb.texture.key === 'bomby') {
-            // Lógica de movimiento para las bomby (solo eje Y)
+       //    Lógica de movimiento para las bomby (solo eje Y)
             if (bomb.y < 0 || bomb.y > this.game.config.height) {
               bomb.setVelocityY(-bomb.body.velocity.y);
             }
-          } else {
-            // Lógica de movimiento para cualquier otro tipo de bomba (rebotar en todas las direcciones)
-            if (bomb.x < 0 || bomb.x > this.game.config.width) {
-              bomb.setVelocityX(-bomb.body.velocity.x);
-            }
-            if (bomb.y < 0 || bomb.y > this.game.config.height) {
-              bomb.setVelocityY(-bomb.body.velocity.y);
-            }
-        }
+          }
       });
     }
   
@@ -245,7 +237,7 @@ export default class nivel2 extends Phaser.Scene {
   
       console.log("estrellas recolectadas", this.cantidadEstrellas);
   
-      this.scene.start("fin", {
+      this.scene.start("nivel3", {
         cantidadEstrellas: this.cantidadEstrellas,
         y: "este es un dato de muestra",
         z: "este es otro atributo enviado a otro escena",

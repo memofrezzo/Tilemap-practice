@@ -149,8 +149,8 @@ export default class Juego extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.jugador);
 
-    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heigthInPixels);
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heigthInPixels);
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cantidadEstrellasTexto.setScrollFactor(0);
     this.timeText.setScrollFactor(0);
     
