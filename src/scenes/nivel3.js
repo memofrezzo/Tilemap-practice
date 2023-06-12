@@ -21,7 +21,7 @@ export default class nivel3 extends Phaser.Scene {
 
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
-    const capaFondo = map.addTilesetImage("sky", "tilesFondo");
+    const capaFondo = map.addTilesetImage("sky_atlas", "tilesFondo");
     const capaPlataform = map.addTilesetImage("platform_atlas", "tilesPlataforma");
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
@@ -156,9 +156,10 @@ export default class nivel3 extends Phaser.Scene {
     //velocidad bomb
     this.bombs.setVelocity(150,150);
 
-    this.cameras.main.startFollow(this.jugador)
-    this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
-    this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.startFollow(this.jugador);
+    this.cameras.main.setLerp(0, 1);
+    this.physics.world.setBounds(0, 0, map.widthInPixels , map.heightInPixels);
+    this.cameras.main.setScroll(-100, 0);
 
     this.cantidadEstrellasTexto.setScrollFactor(0);
     this.timeText.setScrollFactor(0);
