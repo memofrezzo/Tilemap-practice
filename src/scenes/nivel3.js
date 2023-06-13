@@ -141,7 +141,7 @@ export default class nivel3 extends Phaser.Scene {
       this.jugador,
       this.salida,
       this.esVencedor,
-      () => this.cantidadEstrellas >= 5, // condicion de ejecucion
+      () => this.cantidadEstrellas >= 4, // condicion de ejecucion
       this
     );
     }
