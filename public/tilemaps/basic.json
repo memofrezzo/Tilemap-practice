@@ -137,24 +137,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":8,
-                 "name":"bomb",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"collision",
-                         "type":"bool",
-                         "value":true
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":106.363286415065,
-                 "y":91.5349087423332
-                }, 
-                {
-                 "height":0,
                  "id":9,
                  "name":"bomb",
                  "point":true,
@@ -182,24 +164,6 @@
                  "width":0,
                  "x":46.4165197683203,
                  "y":605.348778645177
-                }, 
-                {
-                 "height":0,
-                 "id":16,
-                 "name":"bomb",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"collision",
-                         "type":"bool",
-                         "value":true
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":846.13447494334,
-                 "y":604.381767816671
                 }, 
                 {
                  "height":0,

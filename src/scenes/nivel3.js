@@ -33,6 +33,20 @@ export default class nivel3 extends Phaser.Scene {
       0
     );
     const objectosLayer = map.getObjectLayer("objects");
+    const textData = [
+      { x: 249, y: 2615, content: "Cuánto es -8÷(-1÷2)" },
+      { x: 249, y: 2715, content: "Elegí el camino correcto" },
+      { x: 540, y: 2876, content: "8" },
+      { x: 444, y: 2874, content: "0" },
+      { x: 328, y: 2877, content: "x ϵ Ø" },
+      { x: 252, y: 2878, content: "4" },
+      { x: 151, y: 2877, content: "-16" },
+      { x: 60, y: 2878, content: "16" }
+    ];
+    
+    textData.forEach(data => {
+      this.add.text(data.x, data.y, data.content, { fill: "#ffffff" });
+    });
 
     plataformaLayer.setCollisionByProperty({ collision: true });
 
@@ -127,7 +141,7 @@ export default class nivel3 extends Phaser.Scene {
       this.jugador,
       this.salida,
       this.esVencedor,
-      () => this.cantidadEstrellas >= 1, // condicion de ejecucion
+      () => this.cantidadEstrellas >= 5, // condicion de ejecucion
       this
     );
     }
@@ -140,7 +154,6 @@ export default class nivel3 extends Phaser.Scene {
       "Estrellas recolectadas: 0",
       { fontSize: "15px", fill: "#FFFFFF" }
     );
-
     this.timer = 60;
     this.timeText = this.add.text(750 , 20, this.timer, {
       fontSize: "35px",
@@ -218,9 +231,11 @@ export default class nivel3 extends Phaser.Scene {
 
     // todo / para hacer: sumar puntaje
     //this.cantidadEstrellas = this.cantidadEstrellas + 1;
-    if(this.estrellas.getTotalUsed()=== 0){
-      this.salida.visible=true;
-    };
+    if (this.cantidadEstrellas >= 4) {
+      this.salida.visible = true;
+    } else {
+      this.salida.visible = false;
+    }
     
     this.cantidadEstrellas++;
 
@@ -238,7 +253,7 @@ export default class nivel3 extends Phaser.Scene {
 
     console.log("estrellas recolectadas", this.cantidadEstrellas);
 
-    this.scene.start("gameOver", {
+    this.scene.start("Win", {
       cantidadEstrellas: this.cantidadEstrellas,
       y: "este es un dato de muestra",
       z: "este es otro atributo enviado a otro escena",

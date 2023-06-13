@@ -15,6 +15,7 @@ export default class gameOver extends Phaser.Scene {
     }
   
     create() {
+      this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         const screenWidth = this.cameras.main.width;
         const screenHeight = this.cameras.main.height;
       
@@ -32,4 +33,9 @@ export default class gameOver extends Phaser.Scene {
           cartelTexto,
           { fontSize: "30px", fill: "#FFFFFF" } ) .setOrigin(0.5);
     }
+    update() {
+      if ( this.keyR.isDown) {
+        this.scene.start("juego");
+   }
+  }
   }

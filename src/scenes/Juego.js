@@ -120,7 +120,7 @@ export default class Juego extends Phaser.Scene {
       this.jugador,
       this.salida,
       this.esVencedor,
-      () => this.cantidadEstrellas >= 1, // condicion de ejecucion
+      () => this.cantidadEstrellas >= 5, // condicion de ejecucion
       this
     );
 
@@ -132,7 +132,7 @@ export default class Juego extends Phaser.Scene {
       { fontSize: "15px", fill: "#FFFFFF" }
     );
 
-    this.timer = 25;
+    this.timer = 50;
     this.timeText = this.add.text(750 , 20, this.timer, {
       fontSize: "35px",
       fontStyle: "bold",
